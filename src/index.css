@@ -24,3 +24,20 @@ button:focus {
 .upload-btn:hover {
   background-color: transparent;
 }
+
+.sentences-box {
+  overflow-y: auto;
+  height: 50vh;
+  width: 100%;
+}
+
+.result-container {
+  text-align: center;
+  width: 80%;
+}
+
+.card {
+  background: black;
+  border: 2px solid white;
+  margin-bottom: 2px;
+}

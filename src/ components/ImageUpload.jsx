@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ImageUploader from "react-images-upload";
 import Dialog from "@material-ui/core/Dialog";
@@ -57,9 +58,11 @@ const FormDialog = ({
   );
 };
 
-const ImageUpload = () => {
+const ImageUpload = ({ setShowLoader }) => {
   const [open, setOpen] = useState(false);
   const [screenshot, setScreenshot] = useState([]);
+
+  let history = useHistory();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -76,16 +79,25 @@ const ImageUpload = () => {
   const handleSubmit = async () => {
     let data = new FormData();
     const file = screenshot[0];
+    setOpen(false);
     data.append("file", file, file.name);
-    console.log(file);
-    await backend.post("/api/upload", data, {
-      headers: {
-        accept: "application/json",
-        "Accept-Language": "en-US,en;q=0.8",
-        "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+    setShowLoader(true);
+    const res = await backend
+      .post("/api/predict", data, {
+        headers: {
+          accept: "application/json",
+          "Accept-Language": "en-US,en;q=0.8",
+          "Content-Type": `multipart/form-data; boundary=${data._boundary}`,
+        },
+      })
+      .catch((e) => {});
+    setShowLoader(false);
+    history.push({
+      pathname: "/result",
+      state: {
+        data: res.data,
       },
     });
-    setOpen(false);
   };
 
   return (
