@@ -1,8 +1,10 @@
-import React from "react";
+import React , { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Alert from "@material-ui/lab/Alert";
+import Home from "./Home"
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -27,25 +29,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const Results = (props) => {
+  let history = useHistory();
   console.log(props);
   const classes = useStyles();
+  // const [isResubmit, setResubmit] = useState(false)
+
+  const clickResubmit = () =>{
+    history.push(
+      {pathname: "/"}
+    )
+  }
 
   const renderedSentence = Object.keys(props.location.state.data.DICT).map(
     (sentence) => {
       return (
         <Alert severity="success">
           <div class="card-body d-flex flex-row align-items-center">
-            <h5 class="card-title text-white">{sentence}</h5>
-            <h6 class="card-subtitle text-muted ml-auto">
+            <button type="button" class="btn btn-secondary">{sentence}</button>
+            {/* <h5 class="card-title text-white">{sentence}</h5> */}
+            {/* <h6 class="card-subtitle text-muted ml-auto">
               {props.location.state.data.DICT[sentence]}
-            </h6>
+            </h6> */}
+            <button type="button" class="btn btn-outline-danger">
+            {props.location.state.data.DICT[sentence]}
+            </button>
           </div>
         </Alert>
       );
     }
   );
   return (
-    <div className="result-container">
+    <>
+    
+      <div className="result-container">
       <h1 className="text-white">鉴定结果</h1>
       <Divider />
       <div className="row">
@@ -72,9 +88,11 @@ const Results = (props) => {
           </div>
         </div>
       </div>
-
+      
       <Divider />
+      <button type="button" class="btn btn-primary btn-sm" onClick={clickResubmit}>重新上传</button>
     </div>
+    </>
   );
 };
 
