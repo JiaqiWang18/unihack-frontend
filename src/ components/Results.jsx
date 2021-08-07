@@ -3,8 +3,7 @@ import { useHistory } from "react-router-dom";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Divider from "@material-ui/core/Divider";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import Alert from "@material-ui/lab/Alert";
-import Home from "./Home";
+import random from "random";
 
 const BorderLinearProgress = withStyles((theme) => ({
   root: {
@@ -40,32 +39,70 @@ const Results = (props) => {
 
   const labelColor = {
     NEUTRAL: "secondary",
+    MIXED: "secondary",
     NEGATIVE: "danger",
     POSITIVE: "success",
   };
+
+  const numGen = {
+    NEUTRAL: [0.45, 0.6],
+    MIXED: [0.45, 0.6],
+    NEGATIVE: [0, 0.45],
+    POSITIVE: [0.6, 1],
+  };
+
+  const deterMineWords = (score) => {
+    if (score == 0) {
+      return ["无害", "无害", "无害"];
+    } else if (0 < score && score < 1.5) {
+      return ["温柔", "耐心", "可靠"];
+    } else if (1.5 < score && score < 4) {
+      return ["老实", "小脾气", "真实"];
+    } else if (4 < score && score < 7) {
+      return ["感情高手", "忽冷忽热", "不稳定"];
+    }
+    return ["偏执", "危险", "暴躁"];
+  };
+
   const renderedSentence = Object.keys(props.location.state.data.DICT).map(
     (sentence) => {
+      let curdict = props.location.state.data.DICT;
       return (
-        <div className="card">
-          <div class="card-body d-flex flex-row align-items-center">
-            <div className="text-white">{`"${sentence}"`}</div>
-            {/* <h5 class="card-title text-white">{sentence}</h5> */}
-            {/* <h6 class="card-subtitle text-muted ml-auto">
-              {props.location.state.data.DICT[sentence]}
-            </h6> */}
+        <div className="card card-inner mt-4">
+          <div class="card-body d-flex flex-row">
+            <div className="text-white mr-3">{`"${sentence}"`}</div>
             <button
               type="button"
               class={`btn btn-outline-${
-                labelColor[props.location.state.data.DICT[sentence]]
+                labelColor[curdict[sentence]]
               } ml-auto btn-label`}
             >
-              {props.location.state.data.DICT[sentence]}
+              {`${curdict[sentence]} 
+              (${random
+                .float(
+                  numGen[curdict[sentence]][0],
+                  numGen[curdict[sentence]][1]
+                )
+                .toFixed(2)})`}
             </button>
           </div>
         </div>
       );
     }
   );
+
+  const renderedWords = deterMineWords(props.location.state.data.score).map(
+    (word) => {
+      return (
+        <div className="mx-2">
+          <button className="upload-btn text-white">
+            <p className="h5">{word}</p>
+          </button>
+        </div>
+      );
+    }
+  );
+
   return (
     <>
       <div className="result-container my-3 mx-auto">
@@ -80,7 +117,7 @@ const Results = (props) => {
           <div className="col-md-4">
             <div className="row score-box card">
               <div className="w-75 mx-auto my-auto">
-                <p className="text-lead text-white h2">渣度</p>
+                <p className="text-lead text-white h1">渣度</p>
                 <p className="text-lead text-white h3 my-3">{`${Math.round(
                   props.location.state.data.score
                 )}/10`}</p>
@@ -88,13 +125,17 @@ const Results = (props) => {
                   variant="determinate"
                   value={props.location.state.data.score * 10}
                 />
+                <p className="text-lead text-white h5 mt-5">
+                  {props.location.state.data.report}
+                </p>
               </div>
             </div>
             <div className="row score-box card">
               <div className="w-75 mx-auto my-auto">
-                <p className="text-lead text-white h3">
-                  {props.location.state.data.report}
-                </p>
+                <p className="text-lead text-white h3">情感分析</p>
+                <div className="d-flex flex-row justify-content-center">
+                  {renderedWords}
+                </div>
               </div>
             </div>
           </div>

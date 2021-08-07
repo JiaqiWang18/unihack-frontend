@@ -19,8 +19,15 @@
 }
 
 .container-fluid {
-  background: #000000;
+  background-color: #000000;
   min-height: 100vh;
+}
+
+.bkg {
+  background-image: url("https://djangoblogger.s3.us-west-1.amazonaws.com/background_3.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 button:focus {
   outline: 0;
@@ -61,6 +68,10 @@ button:focus {
   margin-bottom: 2px;
 }
 
+.card-inner {
+  border-radius: 20px;
+}
+
 .score-box {
   height: 40vh;
 }
@@ -69,4 +80,19 @@ button:focus {
   .left-col {
     margin-right: 10px !important;
   }
+}
+
+.sent-w {
+  width: 70%;
+}
+
+.btn-label {
+  outline: 0;
+  cursor: none;
+}
+
+.btn-label:hover {
+  outline: none !important;
+  color: inherit !important;
+  background-color: inherit !important;
 }
