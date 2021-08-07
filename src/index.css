@@ -1,6 +1,26 @@
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #282828;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b6b6b6;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #6c6c6c;
+}
+
 .container-fluid {
   background: #000000;
-  height: 100vh;
+  min-height: 100vh;
 }
 button:focus {
   outline: 0;
@@ -43,4 +63,10 @@ button:focus {
 
 .score-box {
   height: 40vh;
+}
+
+@media (min-width: 768px) {
+  .left-col {
+    margin-right: 10px !important;
+  }
 }

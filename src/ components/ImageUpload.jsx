@@ -58,7 +58,7 @@ const FormDialog = ({
   );
 };
 
-const ImageUpload = ({ setShowLoader }) => {
+const ImageUpload = ({ setShowLoader, setLoaderText }) => {
   const [open, setOpen] = useState(false);
   const [screenshot, setScreenshot] = useState([]);
 
@@ -81,6 +81,7 @@ const ImageUpload = ({ setShowLoader }) => {
     const file = screenshot[0];
     setOpen(false);
     data.append("file", file, file.name);
+    setLoaderText("正在从图片识别对话...");
     setShowLoader(true);
     const textOutPut = await backend
       .post("/api/getText", data, {
@@ -92,6 +93,7 @@ const ImageUpload = ({ setShowLoader }) => {
       })
       .catch((e) => {});
     setShowLoader(false);
+    setLoaderText("正在分析对话...");
     setShowLoader(true);
     const res = await backend
       .post("/api/predict", textOutPut.data)
