@@ -82,8 +82,8 @@ const ImageUpload = ({ setShowLoader }) => {
     setOpen(false);
     data.append("file", file, file.name);
     setShowLoader(true);
-    const res = await backend
-      .post("/api/predict", data, {
+    const textOutPut = await backend
+      .post("/api/getText", data, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -92,6 +92,12 @@ const ImageUpload = ({ setShowLoader }) => {
       })
       .catch((e) => {});
     setShowLoader(false);
+    setShowLoader(true);
+    const res = await backend
+      .post("/api/predict", textOutPut.data)
+      .catch((e) => {});
+    setShowLoader(false);
+    console.log(res);
     history.push({
       pathname: "/result",
       state: {
