@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import ImageUpload from "./ImageUpload";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import bgi from "../img/6e23.png";
 
 const Home = () => {
   const [showLoader, setShowLoader] = useState(false);
