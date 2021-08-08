@@ -96,7 +96,7 @@ const Results = (props) => {
       return (
         <div className="mx-2">
           <button className="upload-btn text-white">
-            <p className="h5">{word}</p>
+            <p className="h6">{word}</p>
           </button>
         </div>
       );
